@@ -1,0 +1,548 @@
+openapi: 3.0.3
+info:
+  title: ES (Election Statistics)
+  description: |-
+    You can find out more about ES at [https://github.com/AndreevAA/ES](https://github.com/AndreevAA/ES). This REST API should be used for local working ES WEB-application, because it gives all opportunities for changing accesses, roles and dataa collections.
+  contact:
+    email: andreev@ingry.tech
+  version: 1.0.0
+servers:
+  - url: https://127.0.0.1:5000/api/v1
+tags:
+  - name: user
+    description: Everything about project users
+  - name: passport
+    description: Access to Petstore passports
+paths:
+  /user/:
+    patch:
+      tags:
+        - user
+      summary: Update a user
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/PatchRequest'
+      responses:
+        '200':
+          description: Successful response
+      security:
+        - OAuth2: [ admin ]
+
+    get:
+      tags:
+        - user
+      summary: Get list of all system users
+      description: This operation helps you to fetch all users' data, Be carefull because of its having private information.
+      operationId: user
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid status value
+        '401':
+          description: Not authenticated
+      security:
+        - OAuth2: [ admin ]
+
+    post:
+      tags:
+        - user
+      summary: Add a new user to your local storage
+      description: This operation helps you to add new user to your local storage.
+      operationId: add_user
+      requestBody:
+        description: Create a new user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreating'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UserCreating'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCreating'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+
+  /user/<user_id>/:
+    get:
+      tags:
+        - user
+      summary: Get existing system user by his or her id
+      description: This operation helps you to fetch user's data, Be carefull because of its having private information.
+      operationId: user_id
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid status value
+        '401':
+          description: Not authenticated
+      security:
+        - OAuth2: [ admin ]
+
+    delete:
+      tags:
+        - user
+      summary: Deleting user existing in the storage
+      operationId: delete_user
+      responses:
+        204:
+          description: User was deleted
+        400:
+          description: User doesn't exist
+      security:
+        - OAuth2: [ admin ]
+
+    put:
+      tags:
+        - user
+      summary: Update an existing user
+      description: This operation helps you to update and existing user.
+      operationId: put_user
+      requestBody:
+        description: Update an existent user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPutting'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UserPutting'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserPutting'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid login or it exists
+        '404':
+          description: Invalid password
+        '405':
+          description: Invalid acs_lvl
+        '406':
+          description: Validation exception
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+
+  /passport/:
+    patch:
+      tags:
+        - passport
+      summary: Update a passport
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/PatchRequest'
+      responses:
+        '200':
+          description: Successful response
+      security:
+        - OAuth2: [ admin ]
+
+    get:
+      tags:
+        - passport
+      summary: Get list of all passports
+      description: This operation helps you to fetch all passports' data, Be carefull because of its having private information.
+      operationId: user
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Passport'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Passport'
+        '400':
+          description: Invalid status value
+        '401':
+          description: Not authenticated
+      security:
+        - OAuth2: [ admin ]
+
+    post:
+      tags:
+        - user
+      summary: Add a new user to your local storage
+      description: This operation helps you to add new user to your local storage.
+      operationId: add_user
+      requestBody:
+        description: Create a new user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreating'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UserCreating'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCreating'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+
+  /passport/<passport_id>/:
+      get:
+        tags:
+          - passport
+        summary: Get existing system passport by its id
+        description: This operation helps you to fetch passport's data, Be carefull because of its having private information.
+        operationId: passport_id
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Passport'
+              application/xml:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Passport'
+          '400':
+            description: Invalid status value
+          '401':
+            description: Not authenticated
+        security:
+          - OAuth2: [ admin ]
+
+      delete:
+        tags:
+          - passport
+        summary: Deleting user existing in the storage
+        operationId: delete_user
+        responses:
+          204:
+            description: User was deleted
+          400:
+            description: User doesn't exist
+        security:
+          - OAuth2: [ admin ]
+
+      put:
+        tags:
+          - passport
+        summary: Update an existing user
+        description: This operation helps you to update and existing user.
+        operationId: put_user
+        requestBody:
+          description: Update an existent user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PassportDetail'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/PassportDetail'
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/PassportDetail'
+          required: true
+        responses:
+          '200':
+            description: Successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Passport'
+              application/xml:
+                schema:
+                  $ref: '#/components/schemas/Passport'
+          '400':
+            description: Invalid login or it exists
+          '404':
+            description: Invalid password
+          '405':
+            description: Invalid acs_lvl
+          '406':
+            description: Validation exception
+        security:
+          - petstore_auth:
+              - write:pets
+              - read:pets
+
+
+components:
+  schemas:
+
+    PatchRequest:
+      type: array
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/JSONPatchRequestAddReplaceTest'
+          - $ref: '#/components/schemas/JSONPatchRequestRemove'
+          - $ref: '#/components/schemas/JSONPatchRequestMoveCopy'
+
+    JSONPatchRequestAddReplaceTest:
+      type: object
+      additionalProperties: false
+      required:
+        - value
+        - op
+        - path
+      properties:
+        path:
+          description: A JSON Pointer path.
+          type: string
+        value:
+          description: The value to add, replace or test.
+
+    JSONPatchRequestRemove:
+      type: object
+      additionalProperties: false
+      required:
+        - op
+        - path
+      properties:
+        path:
+          description: A JSON Pointer path.
+          type: string
+        op:
+          description: The operation to perform.
+          type: string
+          enum:
+            - remove
+
+    JSONPatchRequestMoveCopy:
+      type: object
+      additionalProperties: false
+      required:
+        - from
+        - op
+        - path
+
+      properties:
+        path:
+          description: A JSON Pointer path.
+          type: string
+        op:
+          description: The operation to perform.
+          type: string
+          enum:
+            - move
+            - copy
+
+    Passport:
+      type: object
+      properties:
+        passport_id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: Петр
+        surname:
+          type: string
+          example: Петров
+        patronymic:
+          type: string
+          example: Петрович
+        registration:
+          type: string
+          format: date
+          example: "1991-01-30"
+        children_number:
+          type: integer
+          example: 4
+        is_married_now:
+          type: integer
+          example: null
+        birth_date:
+          type: string
+          format: date
+          example: "1991-01-30"
+        is_depth:
+          type: integer
+          example: null
+        depth_date:
+          type: string
+          format: date
+          example: "2003-01-30"
+
+      xml:
+        name: Passport
+
+    PassportDetail:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Петр
+        surname:
+          type: string
+          example: Петров
+        patronymic:
+          type: string
+          example: Петрович
+        registration:
+          type: string
+          format: date
+          example: "1991-01-30"
+        children_number:
+          type: integer
+          example: 4
+        is_married_now:
+          type: integer
+          example: null
+        birth_date:
+          type: string
+          format: date
+          example: "1991-01-30"
+        is_depth:
+          type: integer
+          example: null
+        depth_date:
+          type: string
+          format: date
+          example: "2003-01-30"
+
+      xml:
+        name: PassportDetail
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        login:
+          type: string
+          example: petrov
+        password:
+          type: string
+          example: qwerty
+        acs_lvl:
+          type: integer
+          format: int64
+          example: 1
+          minimum: 0
+          maximum: 2
+      xml:
+        name: User
+
+    UserPutting:
+      type: object
+      properties:
+        password:
+          type: string
+          example: qwerty
+        acs_lvl:
+          type: integer
+          format: int64
+          example: 1
+          minimum: 0
+          maximum: 2
+      xml:
+        name: UserCreating
+
+    UserCreating:
+      type: object
+      properties:
+        login:
+          type: string
+          example: petrov
+        password:
+          type: string
+          example: qwerty
+        acs_lvl:
+          type: integer
+          format: int64
+          example: 1
+          minimum: 0
+          maximum: 2
+      xml:
+        name: UserCreating
+
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://es.swagger.io/oauth/authorize
+          scopes:
+            write:users: modify pets in your account
+            read:users: read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
+
